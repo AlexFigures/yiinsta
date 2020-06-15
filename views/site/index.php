@@ -4,10 +4,12 @@
 
 $this->title = 'Instagram outbox';
 
+
 use yii\bootstrap\ActiveForm;
-use yii\helpers\Html; ?>
+use yii\helpers\Html;?>
+
 <div class="site-index">
- <p>Введите пользователей, последние фото которых хотите загрузить через запятую:</p>
+    <p>Введите пользователей, последние фото которых хотите загрузить через запятую:</p>
 
     <?php $form = ActiveForm::begin([
         'id' => 'insta-form',
@@ -28,30 +30,17 @@ use yii\helpers\Html; ?>
 
     <?php ActiveForm::end(); ?>
     <?php
-    if($model->usernames){
+
+    if ($model->usernames) {
         $accaunts = explode(',', preg_replace('/\s+/', '', $model->usernames));
-        ?>
-
-
-
-
-
-
-    <!--<div class="container1">-->
-        <?php foreach ($accaunts as $acc) {
+        foreach ($accaunts as $acc) {
             $results_array = $model->getInstPost($acc);
-            if($results_array === false){
-                echo "<p>Пользователь: " . $acc . " не найден или закрыл доступ</p><br>";
+            if ($results_array === false) {
+                echo '<div class="gallery"><a></a><div class="desc">Пользователь: ' . $acc . ' не найден или закрыл доступ</div></div><br>';
             } else {
                 echo '<div class="gallery"><a target="_blank" href="http://instagram.com/p/' . $results_array['node']['shortcode'] . '"><img src="' . $results_array['node']['display_url'] . '"></a><div class="desc">Latest Photo by: ' . $acc . ' Likes: ' . $results_array['node']['edge_liked_by']['count'] . ' - Comments: ' . $results_array['node']['edge_media_to_comment']['count'] . '</div></div>';
-                //echo '<li><figure class="grid__figure"><a href="http://instagram.com/p/' . $results_array['node']['shortcode'] . '"><img src="' . $results_array['node']['display_url'] . '"></a><figcaption>Latest Photo by: ' . $acc . ' Likes: ' . $results_array['node']['edge_liked_by']['count'] . ' - Comments: ' . $results_array['node']['edge_media_to_comment']['count'] . '</figcaption></figure></li>';
-                //echo '<br><br><br><p>Latest Photo by: ' . $acc . '</p><br/>';
-                //echo '<div class="box"><a href="http://instagram.com/p/' . $results_array['node']['shortcode'] . '"><img src="' . $results_array['node']['display_url'] . '"></a><span>Latest Photo by: ' . $acc . ' Likes: ' . $results_array['node']['edge_liked_by']['count'] . ' - Comments: ' . $results_array['node']['edge_media_to_comment']['count'] . '</span></div>';
-                //echo '<a href="http://instagram.com/p/' . $results_array['node']['shortcode'] . '"><img src="' . $results_array['node']['display_url'] . '"></a></br>';
-               // echo 'Likes: ' . $results_array['node']['edge_liked_by']['count'] . ' - Comments: ' . $results_array['node']['edge_media_to_comment']['count'] . '<br/>';
             }
         }
-        ?>
-
-    <?php } ?>
+    }
+    ?>
 </div>

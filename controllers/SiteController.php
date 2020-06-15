@@ -64,7 +64,6 @@ class SiteController extends Controller
     {
         $model = new InstaModel();
         if ($model->load(Yii::$app->request->post())) {
-            //return $this->goBack();
         }
 
         return $this->render('index',[
